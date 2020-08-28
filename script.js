@@ -36,7 +36,7 @@ function makeElement() {
     textBox.appendChild(text)
 
     let date = document.createElement('div')
-    date.textContent = new Date()
+    date.textContent = moment().format('YYYY.MM.DD. HH:mm');
     textBox.appendChild(text)
     textBox.appendChild(date)
     divFlex1.appendChild(textBox)
@@ -51,7 +51,10 @@ function makeElement() {
 
     let delBtn = document.createElement('div')
     delBtn.textContent = 'Delete'
+    delBtn.addEventListener('click', delPost)
+
     divFlex2.appendChild(delBtn)
+    
     
 
     liElement.appendChild(divFlex1)
@@ -62,3 +65,8 @@ function makeElement() {
 }
 
 postBtn.addEventListener('click', showNewPost)
+
+function delPost(event){
+    console.dir(event.target)
+    readingArea.removeChild(event.target.parentElement.parentElement)    
+}
