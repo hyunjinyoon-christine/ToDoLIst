@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="data.js"></script>
     <!-- CSS only -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -15,27 +16,28 @@
             <div class="font-weight-bold">
                 To do List <span>.</span>
             </div>
-            <div class="font-weight-bold" id="filter">
+            <button class="font-weight-bold" id="filter">
                 Filter
-            </div>            
+            </button>            
+        </div>
+
+        <div class="d-flex justify-content-between mb-4">
+            <div class="d-flex">
+                <div class="mr-3">
+                    <input type="checkbox">
+                </div>
+                <div>
+
+                    <input type="text" id="postInput">
+
+                </div>
+            </div>
+            <div id="post">
+                Post
+            </div>
         </div>
 
         <div id="list">
-            <div class="item d-flex justify-content-between mb-4">
-                <div class="d-flex">
-                    <div class="mr-3">
-                        <input type="checkbox">
-                    </div>
-                    <div>
-                        <div>
-                            <input type="text" id="postInput">
-                        </div>                        
-                    </div>
-                </div>            
-                <div id="post">
-                    Post
-                </div>                
-            </div>
 
             <!-- <div class="item d-flex justify-content-between mb-4">
                 <div class="d-flex">

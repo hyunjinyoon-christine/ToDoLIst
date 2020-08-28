@@ -4,17 +4,32 @@ let postBtn = document.querySelector('#post')
 let readingArea = document.querySelector('#list')
 let postInput = document.querySelector('#postInput')
 
+
+//로컬스토리지에 저장
+if (!localStorage.data) {
+    localStorage.setItem('data', JSON.stringify(DATA));
+} else {
+    DATA = JSON.parse(localStorage.getItem('data'));
+}
+
+//데이터를 함수에 넘겨서 출력
+function printPosts() {
+    for (let post of DATA) {
+        printPost(post)
+    }
+}
+
 //엘리먼트들로 만들어진 li 엘리먼트를 ul에 붙인다. 
-function showNewPost() {
-    console.log('post')
-    let postElement = makeElement()
+function printPost(post) {
+    let postElement = makeElement(post)
     readingArea.appendChild(postElement)
 }
 
 
-function makeElement() {
+function makeElement(post) {
     let liElement = document.createElement('div');
     liElement.classList.add('item', 'd-flex', 'justify-content-between','mb-4')
+    liElement.id = post.id
 
     let divFlex1 = document.createElement('div')
     divFlex1.classList.add('d-flex')
@@ -31,12 +46,12 @@ function makeElement() {
     
     let textBox = document.createElement('div')
     let text = document.createElement('div')
-    text.textContent = postInput.value
+    text.textContent = post.contents
     text.classList.add('font-weight-bold')
     textBox.appendChild(text)
 
     let date = document.createElement('div')
-    date.textContent = moment().format('YYYY.MM.DD. HH:mm');
+    date.textContent = post.date
     textBox.appendChild(text)
     textBox.appendChild(date)
     divFlex1.appendChild(textBox)
@@ -46,16 +61,15 @@ function makeElement() {
 
     let editBtn = document.createElement('div')
     editBtn.textContent = 'Edit'
-    editBtn.classList.add('mr-4')
+    editBtn.classList.add('mr-4')    
     divFlex2.appendChild(editBtn)
+    editBtn.addEventListener('click', editPost)
 
     let delBtn = document.createElement('div')
     delBtn.textContent = 'Delete'
     delBtn.addEventListener('click', delPost)
 
-    divFlex2.appendChild(delBtn)
-    
-    
+    divFlex2.appendChild(delBtn)        
 
     liElement.appendChild(divFlex1)
     liElement.appendChild(divFlex2)
@@ -64,9 +78,122 @@ function makeElement() {
 
 }
 
-postBtn.addEventListener('click', showNewPost)
+postBtn.addEventListener('click', displayNewPost)
+
+function displayNewPost(){
+    if (postInput.value){
+        let object = {
+            contents: postInput.value,
+            date: moment().format('YYYY.MM.DD. HH:mm'),
+            id : getId()
+        }
+        DATA.unshift(object)
+        postInput.value = ''
+        removePosts()
+        printPosts()
+        localStorage.setItem('data', JSON.stringify(DATA));
+    } else {
+        alert('내용을 입력해 주세요')
+    }
+
+}
+
+function getId() {
+    if(DATA.length > 0 ){
+        let arr = DATA.map(el => el.id)
+        var maxNum = arr.reduce(function (a, b) {
+            return Math.max(a, b);
+        });
+        return maxNum + 1
+    } else {
+        return 0
+    }
+}
+
+
+
+
+//li엘리먼트들 지우는 함수
+function removePosts() {
+    let posts = document.querySelectorAll('.item')
+    for (let post of posts) {
+        post.remove()
+    }
+}
+
 
 function delPost(event){
     console.dir(event.target)
-    readingArea.removeChild(event.target.parentElement.parentElement)    
+    readingArea.removeChild(event.target.parentElement.parentElement)
+    for(el of DATA){
+        if(el.id === event.target.id){
+            let index = DATA.indexOf(el)
+            DATA.splice(index,1)
+        }        
+    }    
+
 }
+
+function editPost(event){    
+        
+    let textBox = document.createElement('div');
+    textBox.classList.add('todoInputBox')
+    let input = document.createElement('input');
+    input.setAttribute('type', 'text')
+    input.classList.add('todoInput')
+    input.value = event.target.parentElement.parentElement.children[0].children[1].children[0].textContent
+
+    event.target.parentElement.parentElement.children[0].children[1].children[0].remove()
+    textBox.appendChild(input)
+    let parentDiv = event.target.parentElement.parentElement.children[0].children[1]
+    parentDiv.insertBefore(textBox, event.target.parentElement.parentElement.children[0].children[1].children[0])
+    
+    
+    let editbtnEl = event.target
+    editbtnEl.style.display = 'none'
+    let delbtnEl = event.target.parentElement.children[1]
+    delbtnEl.style.display = 'none'
+    
+    let okbtnPosition = event.target.parentElement
+    let okBtn = document.createElement('div');
+    okBtn.classList.add('okBtn')
+    okBtn.textContent = 'Ok'
+    okbtnPosition.appendChild(okBtn)
+    okBtn.addEventListener('click', completeEdit)
+    
+
+}
+
+function completeEdit(event){
+    let okBtn = event.target
+    okBtn.style.display = 'none'
+    
+    let delbtnEl = event.target.parentElement.children[1]
+    delbtnEl.style.display = 'block'
+    let editbtnEl = event.target.parentElement.children[0]
+    editbtnEl.style.display = 'block'
+
+    let text = document.createElement('div')
+    text.textContent = event.target.parentElement.parentElement.children[0].children[1].children[0].children[0].value
+    text.classList.add('font-weight-bold')
+    
+    event.target.parentElement.parentElement.children[0].children[1].children[0].remove()
+    let parentDiv = event.target.parentElement.parentElement.children[0].children[1]
+    parentDiv.insertBefore(text, event.target.parentElement.parentElement.children[0].children[1].children[0])
+
+    let parentEl = event.target.parentElement.parentElement
+    for(el of DATA){   
+        console.log(event.target.parentElement.parentElement)
+        if (parentEl.id === el.id){
+            el.contents = text.textContent            
+        }
+        
+    }
+        
+
+
+
+
+}
+
+printPosts()
