@@ -1,0 +1,25 @@
+input {
+    border-color: transparent;
+}
+
+input:focus {
+    outline: 0px;
+}
+
+#postInput, .todoInput {
+    width: 530px;
+}
+
+.title {
+    font-size : 32px;
+}
+
+.point-dot {
+    font-size : 48px;
+    color : #4c6ef5;
+}
+
+#filter { 
+    font-size: 32px;
+    cursor: pointer;
+}

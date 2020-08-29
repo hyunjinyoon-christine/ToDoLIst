@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="data.js"></script>
     <!-- CSS only -->
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         
@@ -12,13 +13,13 @@
 </head>
 <body>
     <div class="container" style="width: 720px;">
-        <div id="header" class="d-flex justify-content-between mb-5 mt-5">
-            <div class="font-weight-bold">
-                To do List <span>.</span>
+        <div id="header" class="d-flex justify-content-between mb-5 mt-5 align-items-baseline">
+            <div class="font-weight-bold title">
+                To do List <span class="point-dot">.</span>
             </div>
-            <button class="font-weight-bold" id="filter">
+            <div class="font-weight-bold" id="filter">
                 Filter
-            </button>            
+            </div>            
         </div>
 
         <div class="d-flex justify-content-between mb-4">
@@ -28,7 +29,7 @@
                 </div>
                 <div>
 
-                    <input type="text" id="postInput">
+                    <input type="text" id="postInput" placeholder = "할 일을 적어주세요.">
 
                 </div>
             </div>

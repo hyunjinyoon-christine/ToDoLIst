@@ -123,14 +123,15 @@ function removePosts() {
 
 
 function delPost(event){
-    console.dir(event.target)
     readingArea.removeChild(event.target.parentElement.parentElement)
     for(el of DATA){
-        if(el.id === event.target.id){
-            let index = DATA.indexOf(el)
-            DATA.splice(index,1)
+        if (el.id == event.target.parentElement.parentElement.id) {
+            console.log(el.id)
+            let index = DATA.indexOf(el)            
+            DATA.splice(index,1)          
         }        
-    }    
+    }
+    localStorage.setItem('data', JSON.stringify(DATA));
 
 }
 
@@ -160,7 +161,6 @@ function editPost(event){
     okBtn.textContent = 'Ok'
     okbtnPosition.appendChild(okBtn)
     okBtn.addEventListener('click', completeEdit)
-    
 
 }
 
@@ -183,15 +183,13 @@ function completeEdit(event){
 
     let parentEl = event.target.parentElement.parentElement
     for(el of DATA){   
-        console.log(event.target.parentElement.parentElement)
-        if (parentEl.id === el.id){
-            el.contents = text.textContent            
+        if (parentEl.id == el.id){
+            el.contents = text.textContent
         }
         
     }
-        
 
-
+    localStorage.setItem('data', JSON.stringify(DATA));
 
 
 }
