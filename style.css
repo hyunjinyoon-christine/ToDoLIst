@@ -1,5 +1,12 @@
 input {
     border-color: transparent;
+    background-color: transparent;    
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    
 }
 
 input:focus {
@@ -8,6 +15,7 @@ input:focus {
 
 #postInput, .todoInput {
     width: 530px;
+    color: white;
 }
 
 .title {
@@ -22,4 +30,13 @@ input:focus {
 #filter { 
     font-size: 32px;
     cursor: pointer;
+}
+
+.top-input, .item {
+    background-color: #4c6ef5;
+    color: white;
+    padding: 42px;
+    font-size: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 15px 0 #9fb2ff;
 }

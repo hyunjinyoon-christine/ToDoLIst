@@ -3,6 +3,10 @@
 let postBtn = document.querySelector('#post')
 let readingArea = document.querySelector('#list')
 let postInput = document.querySelector('#postInput')
+let filterBtn = document.querySelector('#filter')
+
+//처음 접속시 인풋에 포커싱
+postInput.focus()
 
 
 //로컬스토리지에 저장
@@ -10,6 +14,9 @@ if (!localStorage.data) {
     localStorage.setItem('data', JSON.stringify(DATA));
 } else {
     DATA = JSON.parse(localStorage.getItem('data'));
+    for (el of DATA) {
+        el.date = new Date(el.date)
+    }
 }
 
 //데이터를 함수에 넘겨서 출력
@@ -51,7 +58,8 @@ function makeElement(post) {
     textBox.appendChild(text)
 
     let date = document.createElement('div')
-    date.textContent = post.date
+    // date.textContent = post.date
+    date.textContent = moment(post.date).format('YYYY.MM.DD. HH:mm')
     textBox.appendChild(text)
     textBox.appendChild(date)
     divFlex1.appendChild(textBox)
@@ -84,7 +92,7 @@ function displayNewPost(){
     if (postInput.value){
         let object = {
             contents: postInput.value,
-            date: moment().format('YYYY.MM.DD. HH:mm'),
+            date: new Date(),
             id : getId()
         }
         DATA.unshift(object)
@@ -193,5 +201,28 @@ function completeEdit(event){
 
 
 }
+
+//필터
+filterBtn.addEventListener('click', getFilter)
+
+let toggleVal = false
+
+function getFilter() {
+    if (!toggleVal){
+        DATA.sort(function (a, b) {
+            return a.date.getTime() - b.date.getTime()
+        })
+        toggleVal = true
+    } else {
+        DATA.sort(function (a, b) {
+            return b.date.getTime() - a.date.getTime()
+        })
+        toggleVal = false
+    }    
+    removePosts()
+    printPosts()
+}
+
+
 
 printPosts()
