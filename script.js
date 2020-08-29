@@ -150,7 +150,7 @@ function editPost(event){
     let input = document.createElement('input');
     input.setAttribute('type', 'text')
     input.classList.add('todoInput')
-    input.value = event.target.parentElement.parentElement.children[0].children[1].children[0].textContent
+    input.value = event.target.parentElement.parentElement.children[0].children[1].children[0].textContent    
 
     event.target.parentElement.parentElement.children[0].children[1].children[0].remove()
     textBox.appendChild(input)
@@ -169,6 +169,7 @@ function editPost(event){
     okBtn.textContent = 'Ok'
     okbtnPosition.appendChild(okBtn)
     okBtn.addEventListener('click', completeEdit)
+    input.focus()
 
 }
 
@@ -187,12 +188,15 @@ function completeEdit(event){
     
     event.target.parentElement.parentElement.children[0].children[1].children[0].remove()
     let parentDiv = event.target.parentElement.parentElement.children[0].children[1]
+    let dateEl = event.target.parentElement.parentElement.children[0].children[1].children[0]
+    dateEl.textContent = moment().format('YYYY.MM.DD. HH:mm')
     parentDiv.insertBefore(text, event.target.parentElement.parentElement.children[0].children[1].children[0])
 
     let parentEl = event.target.parentElement.parentElement
     for(el of DATA){   
         if (parentEl.id == el.id){
             el.contents = text.textContent
+            el.date = new Date()
         }
         
     }
@@ -202,7 +206,7 @@ function completeEdit(event){
 
 }
 
-//필터
+//정렬
 filterBtn.addEventListener('click', getFilter)
 
 let toggleVal = false
